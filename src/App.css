@@ -1,38 +1,180 @@
-.App {
+body {
+  background-color: white;
+  width: 100vw;
+  overflow-x: hidden;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body::-webkit-scrollbar {
+  width: 0.5vw;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body::-webkit-scrollbar-track{
+  background-color: white;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body::-webkit-scrollbar-thumb {
+  background-color:maroon;
+}
+/*-----Navbar-----*/
+.navbar {
+  background-color: maroon;
   display: flex;
-  flex-direction: column;
+  flex: 1;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  width: 100vw;
+  height: 4vw;
+}
+.menu-icon {
+  width: 3vw;
+  flex: 1;
+  height: 3vw;
+  margin-left: 1vw;
+  color: white;
+  cursor: pointer;
+}
+.navbar-title-container {
+  flex: 2;
+}
+.navbar-title {
+  font-size: 2.25vw;
+  display: inline-block;
+  vertical-align: middle;
+}
+.search-icon {
+  width: 3vw;
+  flex: 1;
+  height: 3vw;
+  flex-direction: column;
+  margin-right: 1vw;
+  color: white;
+}
+.menu-topbar h2 {
+  color: maroon;
+  line-height: 0;
+  font-size: 2.5vw;
+  float: left;
+  margin-left: 1vw;
+}
+.close-icon {
+  width: 3vw;
+  height: 3vw;
+  margin-top: 1vw;
+  color: maroon;
+  cursor: pointer;
+  float: right;
+}
+.department-list {
+  padding: 0;
+  margin-top: 5vw;
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+}
+.department-list::-webkit-scrollbar {
+  width: 0.5vw;
+}
+.department-list::-webkit-scrollbar-track{
+  background-color: white;
+}
+.department-list::-webkit-scrollbar-thumb {
+  background-color: maroon;
+}
+.department-list h3 {
+  color: white;
+  padding: 0.5vw;
+  margin: 0;
+  border-right: 3px solid white;
+  border-bottom: 2px solid white;
+  background-color: maroon;
+  cursor: pointer;
+  font-size: 1.75vw;
+}
+.department-list a {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/*-----Individual Department Pages*/
+
+button {
+  color:white;
+  width: 20vw;
+  height: 3vw;
+  background-color: maroon;
+  border: 1px solid black;
+  margin-bottom: 1vw;
+  margin-top: 1vw;
+  cursor: pointer;
+  font-size: 1.5vw;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.department-title a, .artist a, .artwork-title a {
+  color: maroon; 
 }
+.artwork-creation-and-culture {
+  width: 50vw;
+  display: flex;
+  margin-left: 25vw;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.artwork-title { 
+  margin-left: 20vw;
+  margin-right: 20vw;
+  font-size: 1.5vw;
+}
+.artist {
+  margin-left: 20vw;
+  margin-right: 20vw;
+  font-size: 2vw;
+}
+.artwork-creation {
+  font-size: 1.25vw;
+  display: inline-block;
+  flex: 1;
+}
+.artwork-culture {
+  display: inline-block;
+  flex: 1;
+  font-size: 1.5vw;
+}
+span {
+  color: white;
+}
+.artwork-creation span, .artwork-culture span, 
+.artwork-title span, .artist span {
+  color: maroon;
+  font-style: italic;
+  font-weight: 700;
+}
+hr {
+  width: 35vw;
+  height: 2px;
+  background-color: black;
+  border: none;
+}
+.department-title h1{
+  color: black;
+  font-size: 3vw;
+}
+.artist h2, .artwork-title h3, 
+.artwork-creation h3, .artwork-culture h4 {
+  margin: 0;
+  line-height: 1;
+}
+.photo-container {
+  position: relative;
+  display: inline-block;
+  width: 50vw;
+  height: auto;
+  border-radius: 0;
+  margin-bottom: 20px;
+  padding: 0;
+}
+.photo {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgb(58, 58, 58);
+}
+
