@@ -28,41 +28,39 @@ export default function HomePage () {
 
 //Asyncronous Fetch Statements
 
-  //Fetch All Artwork IDs  
-  const getObjectIds = async () => {
-    const response = await fetch(
-      "https://collectionapi.metmuseum.org/public/collection/v1/objects");
-    const data = await response.json();
-    const objectIds = data.objectIDs
-    setAllObjectIds(objectIds)
-  };
-
   //Get random object Id from list of available object ids
   const getRandomObjectId = () => {
     const randomId = allObjectIds[Math.floor(Math.random() * allObjectIds.length)];
     setRandomObjectId(randomId);
   }
 
-  //Fetch Artwork Info from Random Artwork ID 
-  const getData = async () => {
-    getRandomObjectId();
-    const response = await fetch(
-    `https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectId}`)
-    const data = await response.json(); 
-    setArtData(data);
-  };
 
 //UseEffect Hooks to Allow Fetch Functions to Run Properly
 
   //Fetch All Artwork IDs Once on Render
   useEffect(() => {
+    const getObjectIds = async () => {
+      const response = await fetch(
+        "https://collectionapi.metmuseum.org/public/collection/v1/objects");
+      const data = await response.json();
+      const objectIds = data.objectIDs
+      setAllObjectIds(objectIds)
+    };
+
     getObjectIds();
   },[]);
 
   //Fetch Artwork Data on Render and Refresh
   useEffect(() => {
+    const getData = async () => {
+      const response = await fetch(
+        `https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectId}`)
+      const data = await response.json(); 
+      setArtData(data);
+    };
+
     getData();
-  }, [allObjectIds]);
+  }, [randomObjectId]);
 
   return(
     <div>
@@ -106,7 +104,7 @@ export default function HomePage () {
       </div>
 
       <div className="new-image-button">
-        <button onClick={() => getData()}>Get New Image</button>
+        <button onClick={() => getRandomObjectId()}>Get New Image</button>
       </div>
 
       <div className="photo-container">

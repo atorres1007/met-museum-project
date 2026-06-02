@@ -34,16 +34,7 @@ export default function ArtPage (props) {
     artworkCulture = "N/A";
   };
 
-// //Asyncronous Fetch Statements
-
-  //Fetch All Artwork IDs in Specific Department 
-  const getObjectIds = async () => {
-    const response = await fetch(
-      `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${matchingDepartmentData.departmentId}`);
-    const data = await response.json();
-    const objectIds = data.objectIDs
-    setAllObjectIds(objectIds)
-  };
+// //Asyncronous Fetch Statement 
 
   //get random id from list of available objects
   const getRandomObjectId = () => {
@@ -51,74 +42,80 @@ export default function ArtPage (props) {
     setRandomObjectId(randomId);
   }
 
-  //Fetch Artwork Info from Random Artwork ID
-  const getData = async () => {
-    getRandomObjectId();
-    const response = await fetch(
-    `https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectId}`)
-    const data = await response.json(); 
-    setArtData(data)
-  }
-
 // //UseEffect Hooks to Allow Fetch Functions to Run Properly
 
-  //Fetch All Artwork IDs Once on Render
+  //Fetch All Artwork IDs in Specific Department 
   useEffect(() => {
+    const getObjectIds = async () => {
+      const response = await fetch(
+        `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${matchingDepartmentData.departmentId}`);
+      const data = await response.json();
+      const objectIds = data.objectIDs
+      setAllObjectIds(objectIds)
+    };
+
     getObjectIds(); 
-  },[departmentName]);
 
-  //Fetch Artwork Data each time Random Artwork ID has been Fetched
+  },[matchingDepartmentData.departmentId]);
+
+  //Fetch Artwork Info from Random Artwork ID
   useEffect(() => {
-    getData()
-  }, [allObjectIds]);
+    const getData = async () => {
+      const response = await fetch(
+      `https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectId}`)
+      const data = await response.json(); 
+      setArtData(data)
+    }
+    getData();
+  }, [randomObjectId]);
   
-    return(
-        <div>
-            <div className="department-title">
-              <h1>{matchingDepartmentData.displayName}</h1>
-            </div>
+  return(
+    <div>
+      <div className="department-title">
+        <h1>{matchingDepartmentData.displayName}</h1>
+      </div>
 
-            <div className="artist">
-              {artistWikiURL !== "" ? (<h2>Artist: <br/> 
-              <a href={artistWikiURL} target="_blank" rel="noreferrer"><span>{artistName}</span></a></h2>)
-              : (<h2>Artist: <br/> <span>{artistName}</span></h2>)}
-            </div>
-            <hr/>
+      <div className="artist">
+        {artistWikiURL !== "" ? (<h2>Artist: <br/> 
+        <a href={artistWikiURL} target="_blank" rel="noreferrer"><span>{artistName}</span></a></h2>)
+        : (<h2>Artist: <br/> <span>{artistName}</span></h2>)}
+      </div>
+      <hr/>
 
-            <div className="artwork-title">
-              {artworkWikiURL !== "" & artworkMetURL !== "" ? 
-                (<h3>Artwork Title: <a href={artworkWikiURL}
-                target="_blank" rel="noreferrer"> WIKI</a> - <a href={artworkMetURL} 
-                target="_blank" rel="noreferrer">MET</a><br/><span>{artworkTitle}</span></h3>)
-              :artworkWikiURL !== "" & artworkMetURL === "" ? 
-                (<h3>Artwork Title: <a href={artworkWikiURL}
-                target="_blank" rel="noreferrer">WIKI</a><br/><span>{artworkTitle}</span></h3>)
-              :artworkWikiURL === "" & artworkMetURL !== "" ?
-                (<h3>Artwork Title: <a href={artworkMetURL} 
-                target="_blank" rel="noreferrer">MET</a><br/><span>{artworkTitle}</span></h3>)            
-              :(<h3>Artwork Title: <br/><span>{artworkTitle}</span></h3>)}
-            </div>
-            <hr/>
-            <div className="artwork-creation-and-culture">
-            <div className="artwork-creation">
-              <h3>Approximate Date Created: <br />
-              <span>{artworkDateCreated}</span></h3>
-            </div>
-            <hr style={{transform: "rotate(90deg)", height: "2px", width: "2vw"}}/>
-            <div className="artwork-culture">
-              <h4>Culture: <br/>
-              <span>{artworkCulture}</span></h4>
-            </div>
-            </div>
+      <div className="artwork-title">
+        {artworkWikiURL !== "" & artworkMetURL !== "" ? 
+          (<h3>Artwork Title: <a href={artworkWikiURL}
+          target="_blank" rel="noreferrer"> WIKI</a> - <a href={artworkMetURL} 
+          target="_blank" rel="noreferrer">MET</a><br/><span>{artworkTitle}</span></h3>)
+        :artworkWikiURL !== "" & artworkMetURL === "" ? 
+          (<h3>Artwork Title: <a href={artworkWikiURL}
+          target="_blank" rel="noreferrer">WIKI</a><br/><span>{artworkTitle}</span></h3>)
+        :artworkWikiURL === "" & artworkMetURL !== "" ?
+          (<h3>Artwork Title: <a href={artworkMetURL} 
+          target="_blank" rel="noreferrer">MET</a><br/><span>{artworkTitle}</span></h3>)            
+        :(<h3>Artwork Title: <br/><span>{artworkTitle}</span></h3>)}
+      </div>
+      <hr/>
+      <div className="artwork-creation-and-culture">
+      <div className="artwork-creation">
+        <h3>Approximate Date Created: <br />
+        <span>{artworkDateCreated}</span></h3>
+      </div>
+      <hr style={{transform: "rotate(90deg)", height: "2px", width: "2vw"}}/>
+      <div className="artwork-culture">
+        <h4>Culture: <br/>
+        <span>{artworkCulture}</span></h4>
+      </div>
+      </div>
 
-            <div className="new-image-button">
-              <button onClick={() => getData()}>Get New Image</button>
-            </div>
+      <div className="new-image-button">
+        <button onClick={() => getRandomObjectId()}>Get New Image</button>
+      </div>
 
-            <div className="photo-container">
-              <img className="photo" src={artworkPhoto} alt={artworkTitle}/>
-            </div>
-        </div>
-    );
+      <div className="photo-container">
+        <img className="photo" src={artworkPhoto} alt={artworkTitle}/>
+      </div>
+    </div>
+  );
 
 }
