@@ -13,6 +13,7 @@ body::-webkit-scrollbar-track{
 body::-webkit-scrollbar-thumb {
   background-color:maroon;
 }
+
 /*-----Navbar-----*/
 .navbar {
   background-color: maroon;
@@ -22,13 +23,13 @@ body::-webkit-scrollbar-thumb {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 4vw;
+  height: 50px;
 }
-.menu-icon {
-  width: 3vw;
+.sidebar-icon {
   flex: 1;
-  height: 3vw;
-  margin-left: 1vw;
+  height: 40px;
+  width: 40px;
+  margin-left: 10px;
   color: white;
   cursor: pointer;
 }
@@ -36,36 +37,23 @@ body::-webkit-scrollbar-thumb {
   flex: 2;
 }
 .navbar-title {
-  font-size: 2.25vw;
+  font-size: 25px;
   display: inline-block;
   vertical-align: middle;
-}
-.search-icon {
-  width: 3vw;
-  flex: 1;
-  height: 3vw;
-  flex-direction: column;
-  margin-right: 1vw;
-  color: white;
 }
 .menu-topbar h2 {
   color: maroon;
   line-height: 0;
-  font-size: 2.5vw;
+  font-size: 2vw;
   float: left;
   margin-left: 1vw;
 }
-.close-icon {
-  width: 3vw;
-  height: 3vw;
-  margin-top: 1vw;
-  color: maroon;
-  cursor: pointer;
-  float: right;
+.menu-icon-container svg{
+  size: 10px;
 }
 .department-list {
   padding: 0;
-  margin-top: 5vw;
+  margin-top: 100px;
   width: 100%;
   height: 100vh;
   overflow-y: scroll;
@@ -92,19 +80,33 @@ body::-webkit-scrollbar-thumb {
 .department-list a {
   color: white;
 }
+.sidebar-open{
+  position: absolute;
+  top: 4vw;
+  width: 20vw;
+  left: 0px;
+  transition: 0.5s;
+}
+.sidebar-closed{
+  position: absolute;
+  top: 4vw;
+  width: 20vw;
+  left: -20vw;
+  transition: 0.5s;
+}
 
 /*-----Individual Department Pages*/
 
 button {
   color:white;
-  width: 20vw;
-  height: 3vw;
+  width: 200px;
+  height: 50px;
   background-color: maroon;
   border: 1px solid black;
   margin-bottom: 1vw;
   margin-top: 1vw;
   cursor: pointer;
-  font-size: 1.5vw;
+  font-size: 20px;
 }
 
 .department-title a, .artist a, .artwork-title a {
@@ -121,22 +123,22 @@ button {
 .artwork-title { 
   margin-left: 20vw;
   margin-right: 20vw;
-  font-size: 1.5vw;
+  font-size: 20px;
 }
 .artist {
   margin-left: 20vw;
   margin-right: 20vw;
-  font-size: 2vw;
+  font-size: 25px;
 }
 .artwork-creation {
-  font-size: 1.25vw;
+  font-size: 25px;
   display: inline-block;
   flex: 1;
 }
 .artwork-culture {
   display: inline-block;
   flex: 1;
-  font-size: 1.5vw;
+  font-size: 25px;
 }
 span {
   color: white;
@@ -155,7 +157,7 @@ hr {
 }
 .department-title h1{
   color: black;
-  font-size: 3vw;
+  font-size: 50px;
 }
 .artist h2, .artwork-title h3, 
 .artwork-creation h3, .artwork-culture h4 {
@@ -165,7 +167,7 @@ hr {
 .photo-container {
   position: relative;
   display: inline-block;
-  width: 50vw;
+  width: 500px;
   height: auto;
   border-radius: 0;
   margin-bottom: 20px;
@@ -177,4 +179,3 @@ hr {
   height: 100%;
   border: 2px solid rgb(58, 58, 58);
 }
-

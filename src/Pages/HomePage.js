@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 export default function HomePage () {
 //Variables
   const [artData, setArtData] = useState([]);
-  const [allObjectIDs, setAllObjectIDs] = useState([]);
-  const [randomObjectID, setRandomObjectID] = useState();
+  const [allObjectIds, setAllObjectIds] = useState([]);
+  const [randomObjectId, setRandomObjectId] = useState()
   const artworkPhoto = artData.primaryImageSmall;
   const artworkDateCreated = artData.objectDate;
   const artistWikiURL = artData.artistWikidata_URL;
@@ -28,98 +28,91 @@ export default function HomePage () {
 
 //Asyncronous Fetch Statements
 
-  //Fetch All Artwork IDs in Specific Department 
-  const getObjectIDs = async () => {
+  //Fetch All Artwork IDs  
+  const getObjectIds = async () => {
     const response = await fetch(
       "https://collectionapi.metmuseum.org/public/collection/v1/objects");
     const data = await response.json();
-    const objectIDs = data.objectIDs
-    setAllObjectIDs(objectIDs)
+    const objectIds = data.objectIDs
+    setAllObjectIds(objectIds)
   };
 
-  //Select a Random Artwork ID from All Artwork IDs
-  const getRandomObjectID = async () => { 
-    const randomNumberGenerator = Math.floor(Math.random() * 471581) + 1;
-    setRandomObjectID(JSON.stringify(randomNumberGenerator))
-  };
+  //Get random object Id from list of available object ids
+  const getRandomObjectId = () => {
+    const randomId = allObjectIds[Math.floor(Math.random() * allObjectIds.length)];
+    setRandomObjectId(randomId);
+  }
 
-  //Fetch Artwork Info from Random Artwork ID and Skip Artwork that doesn't have Image URL
+  //Fetch Artwork Info from Random Artwork ID 
   const getData = async () => {
+    getRandomObjectId();
     const response = await fetch(
-    `https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectID}`)
+    `https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomObjectId}`)
     const data = await response.json(); 
-    if (data.primaryImageSmall === "") {
-      getObjectIDs();
-    } else {
-    setArtData(data); }
-   };
+    setArtData(data);
+  };
 
 //UseEffect Hooks to Allow Fetch Functions to Run Properly
 
   //Fetch All Artwork IDs Once on Render
   useEffect(() => {
-    getObjectIDs() 
+    getObjectIds();
   },[]);
 
-  //Select Random Artwork ID after All Artwork IDS have been Fetched and each time User Requests a New Image
+  //Fetch Artwork Data on Render and Refresh
   useEffect(() => {
-    getRandomObjectID()
-  }, [allObjectIDs]);
+    getData();
+  }, [allObjectIds]);
 
-  //Fetch Artwork Data each time Random Artwork ID has been Fetched
-  useEffect(() => {
-    getData()
-  }, [randomObjectID]);
-  
-    return(
-        <div>
-            <div className="department-title">
-              <h1><a href="https://www.metmuseum.org/" target="_blank">
-              Random Image Generator</a></h1>
-            </div>
+  return(
+    <div>
+      <div className="department-title">
+        <h1><a href="https://www.metmuseum.org/" target="_blank" rel="noreferrer">
+        Random Image Generator</a></h1>
+      </div>
 
-            <div className="artist">
-              {artistWikiURL != "" ? (<h2>Artist: <br/> 
-              <a href={artistWikiURL} target="_blank"><span>{artistName}</span></a></h2>)
-              : (<h2>Artist: <br/> <span>{artistName}</span></h2>)}
-            </div>
+      <div className="artist">
+        {artistWikiURL !== "" ? (<h2>Artist: <br/> 
+        <a href={artistWikiURL} target="_blank" rel="noreferrer"><span>{artistName}</span></a></h2>)
+        : (<h2>Artist: <br/> <span>{artistName}</span></h2>)}
+      </div>
 
-            <hr/>
+      <hr/>
 
-            <div className="artwork-title">
-              {artworkWikiURL != "" & artworkMetURL != "" ? 
-                (<h3>Artwork Title: <a href={artworkWikiURL}
-                target="_blank"> WIKI</a> - <a href={artworkMetURL} 
-                target="_blank">MET</a><br/><span>{artworkTitle}</span></h3>)
-              :artworkWikiURL != "" & artworkMetURL === "" ? 
-                (<h3>Artwork Title: <a href={artworkWikiURL}
-                target="_blank">WIKI</a><br/><span>{artworkTitle}</span></h3>)
-              :artworkWikiURL === "" & artworkMetURL != "" ?
-                (<h3>Artwork Title: <a href={artworkMetURL} 
-                target="_blank">MET</a><br/><span>{artworkTitle}</span></h3>)            
-              :(<h3>Artwork Title: <br/><span>{artworkTitle}</span></h3>)}
-            </div>
-            <hr/>
-            <div className="artwork-creation-and-culture">
-            <div className="artwork-creation">
-              <h3>Approximate Date Created: <br />
-              <span>{artworkDateCreated}</span></h3>
-            </div>
-            <hr style={{transform: "rotate(90deg)", height: "2px", width: "2vw"}}/>
-            <div className="artwork-culture">
-              <h4>Culture: <br/>
-              <span>{artworkCulture}</span></h4>
-            </div>
-            </div>
+      <div className="artwork-title">
+        {artworkWikiURL !== "" & artworkMetURL !== "" ? 
+          (<h3>Artwork Title: <a href={artworkWikiURL}
+          target="_blank" rel="noreferrer"> WIKI</a> - <a href={artworkMetURL} 
+          target="_blank" rel="noreferrer">MET</a><br/><span>{artworkTitle}</span></h3>)
+        :artworkWikiURL !== "" & artworkMetURL === "" ? 
+          (<h3>Artwork Title: <a href={artworkWikiURL}
+          target="_blank" rel="noreferrer">WIKI</a><br/><span>{artworkTitle}</span></h3>)
+        :artworkWikiURL === "" & artworkMetURL !== "" ?
+          (<h3>Artwork Title: <a href={artworkMetURL} 
+          target="_blank" rel="noreferrer">MET</a><br/><span>{artworkTitle}</span></h3>)            
+        :(<h3>Artwork Title: <br/><span>{artworkTitle}</span></h3>)}
+      </div>
+      <hr/>
+      <div className="artwork-creation-and-culture">
+      <div className="artwork-creation">
+        <h3>Approximate Date Created: <br />
+        <span>{artworkDateCreated}</span></h3>
+      </div>
+      <hr style={{transform: "rotate(90deg)", height: "2px", width: "2vw"}}/>
+      <div className="artwork-culture">
+        <h4>Culture: <br/>
+        <span>{artworkCulture}</span></h4>
+      </div>
+      </div>
 
-            <div className="new-image-button">
-              <button onClick={() => getRandomObjectID()}>Get New Image</button>
-            </div>
+      <div className="new-image-button">
+        <button onClick={() => getData()}>Get New Image</button>
+      </div>
 
-            <div className="photo-container">
-              <img className="photo" src={artworkPhoto}/>
-            </div>
-        </div>
-    );
+      <div className="photo-container">
+        <img className="photo" src={artworkPhoto} alt={artworkTitle}/>
+      </div>
+    </div>
+  );
 
 }
